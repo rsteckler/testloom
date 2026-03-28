@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Guide - Blog App Docs</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">&#9776;</button>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h2>Blog App</h2>
+      <span>Documentation</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="api.html">API Reference</a></li>
+        <li><a href="setup.html">Setup Guide</a></li>
+        <li><a href="guide.html" class="active">User Guide</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <h1>User Guide</h1>
+    <p class="subtitle">How to use the blog application</p>
+
+    <h2>Viewing Blog Posts</h2>
+    <p>
+      When you first open the application, the home page displays a list of all
+      published blog posts. Each entry shows the post title and the date it was created.
+    </p>
+    <ol class="steps">
+      <li>
+        <strong>Open the application</strong> in your browser at
+        <code>http://localhost:5173</code>
+      </li>
+      <li>
+        <strong>Browse the post list</strong> &mdash; posts are displayed in reverse
+        chronological order, with the newest posts at the top.
+      </li>
+    </ol>
+
+    <div class="note">
+      <p><strong>Note:</strong> If no posts have been created yet, the home page will
+        display an empty state prompting you to create your first post.</p>
+    </div>
+
+    <h2>Reading a Blog Post</h2>
+    <p>
+      To read the full content of a blog post, simply click on its title in the
+      post list.
+    </p>
+    <ol class="steps">
+      <li>
+        <strong>Find the post</strong> you want to read in the list on the home page.
+      </li>
+      <li>
+        <strong>Click the post title</strong> to open the full article view.
+      </li>
+      <li>
+        <strong>Read the article</strong> &mdash; the full content is displayed along
+        with the title and publication date.
+      </li>
+      <li>
+        <strong>Go back</strong> &mdash; use the back button or navigation link to
+        return to the post list.
+      </li>
+    </ol>
+
+    <h2>Creating a New Blog Post</h2>
+    <p>
+      Writing a new post is straightforward. You need a title and your article content.
+    </p>
+    <ol class="steps">
+      <li>
+        <strong>Click "New Post"</strong> &mdash; find this button on the home page or
+        in the navigation area.
+      </li>
+      <li>
+        <strong>Enter a title</strong> &mdash; type a clear, descriptive title for
+        your blog post in the title field.
+      </li>
+      <li>
+        <strong>Write your content</strong> &mdash; use the content area to write your
+        full article. You can write as much or as little as you like.
+      </li>
+      <li>
+        <strong>Save the post</strong> &mdash; click the "Save" or "Publish" button to
+        submit your post. It will be sent to the backend API and stored.
+      </li>
+      <li>
+        <strong>Verify</strong> &mdash; you will be redirected to the home page (or the
+        post view) where your new post should now appear.
+      </li>
+    </ol>
+
+    <div class="note">
+      <p><strong>Important:</strong> Both the title and content fields are required.
+        The save button will not work if either field is left empty.</p>
+    </div>
+
+    <h2>Tips</h2>
+    <ul>
+      <li>
+        <strong>Keep titles concise</strong> &mdash; a short, descriptive title helps
+        readers find your post in the list.
+      </li>
+      <li>
+        <strong>Use paragraphs</strong> &mdash; break your content into paragraphs for
+        easier reading.
+      </li>
+      <li>
+        <strong>Check the API directly</strong> &mdash; if you want to verify your posts
+        are being stored, visit
+        <code>http://localhost:3000/api/posts</code> in your browser to see the raw
+        JSON data.
+      </li>
+    </ul>
+
+    <h2>Workflow Summary</h2>
+    <div class="arch-diagram">
+      <div class="arch-box">
+        <h4>Browse</h4>
+        <p>View post list</p>
+      </div>
+      <div class="arch-arrow">&rarr;</div>
+      <div class="arch-box">
+        <h4>Read</h4>
+        <p>Open a post</p>
+      </div>
+      <div class="arch-arrow">&rarr;</div>
+      <div class="arch-box">
+        <h4>Create</h4>
+        <p>Write new post</p>
+      </div>
+      <div class="arch-arrow">&rarr;</div>
+      <div class="arch-box">
+        <h4>Publish</h4>
+        <p>Save to server</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
