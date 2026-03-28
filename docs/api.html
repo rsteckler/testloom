@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Reference - Blog App Docs</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">&#9776;</button>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h2>Blog App</h2>
+      <span>Documentation</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="api.html" class="active">API Reference</a></li>
+        <li><a href="setup.html">Setup Guide</a></li>
+        <li><a href="guide.html">User Guide</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <h1>API Reference</h1>
+    <p class="subtitle">RESTful endpoints for managing blog posts</p>
+
+    <p>
+      The API runs at <code>http://localhost:3000</code> by default.
+      All request and response bodies use <code>application/json</code>.
+    </p>
+
+    <h2>Base URL</h2>
+    <pre><code>http://localhost:3000/api</code></pre>
+
+    <!-- GET /api/posts -->
+    <h2>Endpoints</h2>
+
+    <div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method method-get">GET</span>
+        <span class="endpoint-path">/api/posts</span>
+      </div>
+      <p>Retrieve a list of all blog posts.</p>
+
+      <h4>Response</h4>
+      <p><span class="status status-200">200 OK</span></p>
+      <pre><code>[
+  {
+    "id": "1",
+    "title": "My First Post",
+    "content": "This is the full article content...",
+    "createdAt": "2026-03-27T10:30:00.000Z"
+  },
+  {
+    "id": "2",
+    "title": "Another Post",
+    "content": "More content here...",
+    "createdAt": "2026-03-27T12:00:00.000Z"
+  }
+]</code></pre>
+
+      <h4>Error Responses</h4>
+      <p><span class="status status-500">500 Internal Server Error</span> &mdash; Server failed to retrieve posts.</p>
+      <pre><code>{
+  "error": "Failed to retrieve posts"
+}</code></pre>
+    </div>
+
+    <!-- GET /api/posts/:id -->
+    <div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method method-get">GET</span>
+        <span class="endpoint-path">/api/posts/:id</span>
+      </div>
+      <p>Retrieve a single blog post by its ID.</p>
+
+      <h4>URL Parameters</h4>
+      <table style="width:100%; margin-bottom:1rem; border-collapse:collapse;">
+        <thead>
+          <tr style="text-align:left; border-bottom:1px solid var(--color-border);">
+            <th style="padding:0.5rem 0.75rem;">Parameter</th>
+            <th style="padding:0.5rem 0.75rem;">Type</th>
+            <th style="padding:0.5rem 0.75rem;">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.5rem 0.75rem;"><code>id</code></td>
+            <td style="padding:0.5rem 0.75rem;">string</td>
+            <td style="padding:0.5rem 0.75rem;">The unique identifier of the post</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Response</h4>
+      <p><span class="status status-200">200 OK</span></p>
+      <pre><code>{
+  "id": "1",
+  "title": "My First Post",
+  "content": "This is the full article content...",
+  "createdAt": "2026-03-27T10:30:00.000Z"
+}</code></pre>
+
+      <h4>Error Responses</h4>
+      <p><span class="status status-404">404 Not Found</span> &mdash; No post exists with the given ID.</p>
+      <pre><code>{
+  "error": "Post not found"
+}</code></pre>
+    </div>
+
+    <!-- POST /api/posts -->
+    <div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method method-post">POST</span>
+        <span class="endpoint-path">/api/posts</span>
+      </div>
+      <p>Create a new blog post.</p>
+
+      <h4>Request Body</h4>
+      <table style="width:100%; margin-bottom:1rem; border-collapse:collapse;">
+        <thead>
+          <tr style="text-align:left; border-bottom:1px solid var(--color-border);">
+            <th style="padding:0.5rem 0.75rem;">Field</th>
+            <th style="padding:0.5rem 0.75rem;">Type</th>
+            <th style="padding:0.5rem 0.75rem;">Required</th>
+            <th style="padding:0.5rem 0.75rem;">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--color-border);">
+            <td style="padding:0.5rem 0.75rem;"><code>title</code></td>
+            <td style="padding:0.5rem 0.75rem;">string</td>
+            <td style="padding:0.5rem 0.75rem;">Yes</td>
+            <td style="padding:0.5rem 0.75rem;">The title of the blog post</td>
+          </tr>
+          <tr>
+            <td style="padding:0.5rem 0.75rem;"><code>content</code></td>
+            <td style="padding:0.5rem 0.75rem;">string</td>
+            <td style="padding:0.5rem 0.75rem;">Yes</td>
+            <td style="padding:0.5rem 0.75rem;">The full article content</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Example Request</h4>
+      <pre><code>POST /api/posts
+Content-Type: application/json
+
+{
+  "title": "My New Blog Post",
+  "content": "This is the article body with all the details..."
+}</code></pre>
+
+      <h4>Response</h4>
+      <p><span class="status status-201">201 Created</span></p>
+      <pre><code>{
+  "id": "3",
+  "title": "My New Blog Post",
+  "content": "This is the article body with all the details...",
+  "createdAt": "2026-03-27T14:15:00.000Z"
+}</code></pre>
+
+      <h4>Error Responses</h4>
+      <p><span class="status status-400">400 Bad Request</span> &mdash; Missing required fields.</p>
+      <pre><code>{
+  "error": "Title and content are required"
+}</code></pre>
+    </div>
+
+    <h2>Common Headers</h2>
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr style="text-align:left; border-bottom:1px solid var(--color-border);">
+          <th style="padding:0.5rem 0.75rem;">Header</th>
+          <th style="padding:0.5rem 0.75rem;">Value</th>
+          <th style="padding:0.5rem 0.75rem;">Required</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--color-border);">
+          <td style="padding:0.5rem 0.75rem;"><code>Content-Type</code></td>
+          <td style="padding:0.5rem 0.75rem;"><code>application/json</code></td>
+          <td style="padding:0.5rem 0.75rem;">For POST requests</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem 0.75rem;"><code>Accept</code></td>
+          <td style="padding:0.5rem 0.75rem;"><code>application/json</code></td>
+          <td style="padding:0.5rem 0.75rem;">Recommended</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Status Codes</h2>
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr style="text-align:left; border-bottom:1px solid var(--color-border);">
+          <th style="padding:0.5rem 0.75rem;">Code</th>
+          <th style="padding:0.5rem 0.75rem;">Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--color-border);">
+          <td style="padding:0.5rem 0.75rem;"><span class="status status-200">200</span></td>
+          <td style="padding:0.5rem 0.75rem;">Request succeeded</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--color-border);">
+          <td style="padding:0.5rem 0.75rem;"><span class="status status-201">201</span></td>
+          <td style="padding:0.5rem 0.75rem;">Resource created successfully</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--color-border);">
+          <td style="padding:0.5rem 0.75rem;"><span class="status status-400">400</span></td>
+          <td style="padding:0.5rem 0.75rem;">Bad request (missing or invalid fields)</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--color-border);">
+          <td style="padding:0.5rem 0.75rem;"><span class="status status-404">404</span></td>
+          <td style="padding:0.5rem 0.75rem;">Resource not found</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem 0.75rem;"><span class="status status-500">500</span></td>
+          <td style="padding:0.5rem 0.75rem;">Internal server error</td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup Guide - Blog App Docs</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">&#9776;</button>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h2>Blog App</h2>
+      <span>Documentation</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="api.html">API Reference</a></li>
+        <li><a href="setup.html" class="active">Setup Guide</a></li>
+        <li><a href="guide.html">User Guide</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <h1>Setup Guide</h1>
+    <p class="subtitle">Get the blog application running locally</p>
+
+    <h2>Prerequisites</h2>
+    <ul>
+      <li><strong>Node.js</strong> &mdash; version 18 or later (<code>node -v</code> to check)</li>
+      <li><strong>npm</strong> &mdash; included with Node.js (version 9+ recommended)</li>
+      <li>A modern web browser (Chrome, Firefox, Safari, Edge)</li>
+      <li>A terminal / command-line interface</li>
+    </ul>
+
+    <div class="note">
+      <p><strong>Tip:</strong> If you don't have Node.js installed, download it from
+        <code>https://nodejs.org</code>. The LTS version is recommended.</p>
+    </div>
+
+    <h2>Project Structure</h2>
+    <pre><code>blog-app/
+  backend/          # Express API server
+    package.json
+    server.js
+  frontend/         # React SPA (Vite)
+    package.json
+    src/
+    index.html
+  docs/             # This documentation site</code></pre>
+
+    <h2>1. Clone the Repository</h2>
+    <pre><code>git clone &lt;repository-url&gt;
+cd blog-app</code></pre>
+
+    <h2>2. Start the Backend</h2>
+    <p>The backend is an Express server that provides the REST API.</p>
+    <ol class="steps">
+      <li>
+        <strong>Navigate to the backend directory</strong>
+        <pre><code>cd backend</code></pre>
+      </li>
+      <li>
+        <strong>Install dependencies</strong>
+        <pre><code>npm install</code></pre>
+      </li>
+      <li>
+        <strong>Start the server</strong>
+        <pre><code>npm start</code></pre>
+        <p>The API will be available at <code>http://localhost:3000</code>.</p>
+      </li>
+    </ol>
+
+    <div class="note">
+      <p><strong>Note:</strong> The backend uses in-memory storage by default. All data is
+        reset when the server restarts.</p>
+    </div>
+
+    <h2>3. Start the Frontend</h2>
+    <p>The frontend is a React application built with Vite.</p>
+    <ol class="steps">
+      <li>
+        <strong>Open a new terminal</strong> and navigate to the frontend directory
+        <pre><code>cd frontend</code></pre>
+      </li>
+      <li>
+        <strong>Install dependencies</strong>
+        <pre><code>npm install</code></pre>
+      </li>
+      <li>
+        <strong>Start the development server</strong>
+        <pre><code>npm run dev</code></pre>
+        <p>The app will be available at <code>http://localhost:5173</code>.</p>
+      </li>
+    </ol>
+
+    <h2>4. Verify Everything Works</h2>
+    <ol class="steps">
+      <li>
+        <strong>Check the API</strong> &mdash; open <code>http://localhost:3000/api/posts</code>
+        in your browser. You should see an empty JSON array: <code>[]</code>
+      </li>
+      <li>
+        <strong>Check the frontend</strong> &mdash; open <code>http://localhost:5173</code>.
+        You should see the blog home page.
+      </li>
+      <li>
+        <strong>Create a test post</strong> &mdash; use the "New Post" button to create a post
+        and verify it appears in the list.
+      </li>
+    </ol>
+
+    <h2>Troubleshooting</h2>
+
+    <h3>Port already in use</h3>
+    <p>
+      If port 3000 or 5173 is already in use, you'll see an <code>EADDRINUSE</code> error.
+      Stop the other process using that port, or configure an alternative port.
+    </p>
+
+    <h3>CORS errors in the browser console</h3>
+    <p>
+      The backend includes CORS middleware that allows requests from the frontend's
+      development server. If you're running the frontend on a non-default port,
+      ensure the backend's CORS configuration includes that origin.
+    </p>
+
+    <h3>npm install fails</h3>
+    <p>
+      Make sure you're using Node.js 18 or later. Delete <code>node_modules</code> and
+      <code>package-lock.json</code>, then run <code>npm install</code> again.
+    </p>
+  </main>
+</body>
+</html>

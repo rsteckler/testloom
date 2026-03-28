@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog App - Documentation</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">&#9776;</button>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h2>Blog App</h2>
+      <span>Documentation</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html" class="active">Overview</a></li>
+        <li><a href="api.html">API Reference</a></li>
+        <li><a href="setup.html">Setup Guide</a></li>
+        <li><a href="guide.html">User Guide</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <h1>Blog Application</h1>
+    <p class="subtitle">A full-stack blog platform built with React and Express</p>
+
+    <h2>About the Project</h2>
+    <p>
+      Blog App is a lightweight blogging platform that allows users to create, browse,
+      and read blog posts. The application is built with a modern stack: a React single-page
+      application on the frontend communicating with an Express REST API on the backend.
+    </p>
+    <p>
+      Posts are composed with a simple title and article body, stored on the server,
+      and displayed in a clean reading experience. The focus is on simplicity and
+      clarity&mdash;no accounts, no comments, just writing and reading.
+    </p>
+
+    <h2>Architecture</h2>
+    <div class="arch-diagram">
+      <div class="arch-box">
+        <h4>React Frontend</h4>
+        <p>Vite &middot; SPA &middot; Port 5173</p>
+      </div>
+      <div class="arch-arrow">&rarr;</div>
+      <div class="arch-box">
+        <h4>Express API</h4>
+        <p>REST &middot; JSON &middot; Port 3000</p>
+      </div>
+      <div class="arch-arrow">&rarr;</div>
+      <div class="arch-box">
+        <h4>Data Store</h4>
+        <p>In-memory storage</p>
+      </div>
+    </div>
+    <p>
+      The frontend makes HTTP requests to the backend API to fetch and create posts.
+      All communication happens over JSON. The backend stores posts in memory
+      (no external database required for development).
+    </p>
+
+    <h2>Features</h2>
+    <div class="features">
+      <div class="feature-card">
+        <h4>Create Posts</h4>
+        <p>Write blog posts with a title and rich article content using a clean editor interface.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Browse Posts</h4>
+        <p>View a list of all published posts on the home page, sorted by most recent.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Read Articles</h4>
+        <p>Click any post to open the full article in a distraction-free reading view.</p>
+      </div>
+      <div class="feature-card">
+        <h4>REST API</h4>
+        <p>A clean JSON API that can be consumed by any client, not just the included frontend.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Responsive Design</h4>
+        <p>The frontend works seamlessly on desktop, tablet, and mobile devices.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Zero Config</h4>
+        <p>No database setup required. Install dependencies and start building immediately.</p>
+      </div>
+    </div>
+
+    <h2>Quick Start</h2>
+    <p>Get up and running in under a minute:</p>
+    <pre><code># Start the backend
+cd backend
+npm install
+npm start
+
+# In a new terminal, start the frontend
+cd frontend
+npm install
+npm run dev</code></pre>
+    <p>
+      Then open <code>http://localhost:5173</code> in your browser.
+      See the <a href="setup.html">Setup Guide</a> for detailed instructions.
+    </p>
+  </main>
+</body>
+</html>
