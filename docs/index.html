@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TestLoom Blog — Documentation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Side Navigation -->
+<nav id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <span class="logo">📖</span>
+    <span class="logo-text">TestLoom Blog</span>
+  </div>
+  <ul class="nav-list">
+    <li><a href="#overview" class="nav-link active">Overview</a></li>
+    <li><a href="#getting-started" class="nav-link">Getting Started</a></li>
+    <li><a href="#architecture" class="nav-link">Architecture</a></li>
+    <li class="nav-section">Frontend</li>
+    <li><a href="#fe-tech-stack" class="nav-link">Tech Stack</a></li>
+    <li><a href="#fe-running" class="nav-link">Running the Frontend</a></li>
+    <li><a href="#fe-components" class="nav-link">Components</a></li>
+    <li class="nav-section">Backend</li>
+    <li><a href="#be-tech-stack" class="nav-link">Tech Stack</a></li>
+    <li><a href="#be-running" class="nav-link">Running the Backend</a></li>
+    <li><a href="#be-api" class="nav-link">API Reference</a></li>
+  </ul>
+</nav>
+
+<!-- Mobile topbar -->
+<header class="topbar">
+  <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+  <span class="topbar-title">TestLoom Blog Docs</span>
+</header>
+
+<!-- Main Content -->
+<main class="content">
+
+  <!-- Overview -->
+  <section id="overview">
+    <h1>TestLoom Blog</h1>
+    <p class="lead">A minimal, full-stack blog application built with <strong>React</strong> and <strong>Express.js</strong>. Read posts, view details, and create new entries — all backed by a clean REST API.</p>
+
+    <div class="card-row">
+      <div class="card">
+        <h3>Frontend</h3>
+        <p>React 19 single-page app powered by Vite. Three views — list, detail, and create — with responsive styling and error handling.</p>
+      </div>
+      <div class="card">
+        <h3>Backend</h3>
+        <p>Express.js REST API with in-memory storage, input validation middleware, and CORS support. Serves posts at <code>/api/posts</code>.</p>
+      </div>
+      <div class="card">
+        <h3>Developer Experience</h3>
+        <p>Hot-reload on both ends, ESLint for the frontend, and <code>node --watch</code> for the backend. Zero config to get started.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- Getting Started -->
+  <section id="getting-started">
+    <h2>Getting Started</h2>
+    <p>You need <strong>Node.js 18+</strong> and <strong>npm</strong> installed. The project is organised as two independent packages — a frontend and a backend — that run side-by-side.</p>
+
+    <h3>1. Clone the repository</h3>
+    <pre><code>git clone &lt;repository-url&gt;
+cd testloom</code></pre>
+
+    <h3>2. Start the backend</h3>
+    <pre><code><span class="comment"># Install dependencies</span>
+cd backend
+npm install
+
+<span class="comment"># Start the dev server (auto-reload)</span>
+npm run dev</code></pre>
+    <p>The API will be available at <code>http://localhost:3000</code>.</p>
+
+    <h3>3. Start the frontend</h3>
+    <pre><code><span class="comment"># In a second terminal</span>
+cd frontend
+npm install
+
+<span class="comment"># Start Vite dev server</span>
+npm run dev</code></pre>
+    <p>Vite will print the local URL (typically <code>http://localhost:5173</code>). Open it in your browser.</p>
+
+    <div class="callout">
+      <strong>Tip:</strong> Start the backend first. The frontend makes API calls to <code>http://localhost:3000/api/posts</code> and will show an error banner if the backend is unreachable.
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- Architecture -->
+  <section id="architecture">
+    <h2>Architecture</h2>
+    <p>The application follows a classic client-server architecture. The React frontend communicates with the Express backend over HTTP using JSON.</p>
+
+    <pre class="diagram"><code>┌─────────────────────────────────┐       HTTP / JSON        ┌─────────────────────────────────┐
+│           FRONTEND              │ ◄──────────────────────► │            BACKEND              │
+│                                 │                           │                                 │
+│  React 19  +  Vite              │   GET  /api/posts         │  Express.js 4                   │
+│                                 │   GET  /api/posts/:id     │                                 │
+│  ┌───────────┐  ┌────────────┐  │   POST /api/posts         │  ┌───────────┐  ┌────────────┐  │
+│  │ PostList   │  │ PostView   │  │                           │  │  Routes   │  │ Validation │  │
+│  └───────────┘  └────────────┘  │                           │  │ /posts.js │  │ Middleware  │  │
+│  ┌───────────┐  ┌────────────┐  │                           │  └─────┬─────┘  └──────┬─────┘  │
+│  │ PostForm   │  │  App.jsx   │  │                           │        │               │        │
+│  └───────────┘  └────────────┘  │                           │  ┌─────▼───────────────▼─────┐  │
+│                                 │                           │  │   In-Memory Data Store     │  │
+│  Port: 5173 (dev)               │                           │  │   (src/data/posts.js)      │  │
+└─────────────────────────────────┘                           │  └────────────────────────────┘  │
+                                                              │                                 │
+                                                              │  Port: 3000                     │
+                                                              └─────────────────────────────────┘</code></pre>
+
+    <h3>Data Flow</h3>
+    <ol>
+      <li>User interacts with a React component (e.g. clicks a post, submits the form).</li>
+      <li><code>App.jsx</code> calls the backend via <code>fetch()</code>.</li>
+      <li>Express routes the request, optionally running the <strong>validatePost</strong> middleware.</li>
+      <li>The data layer reads from or writes to the in-memory posts array.</li>
+      <li>The JSON response flows back to React, which updates state and re-renders.</li>
+    </ol>
+  </section>
+
+  <hr>
+
+  <!-- Frontend Tech Stack -->
+  <section id="fe-tech-stack">
+    <h2>Frontend — Tech Stack</h2>
+    <table>
+      <thead>
+        <tr><th>Technology</th><th>Version</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>React</td><td>19.2</td><td>UI component library</td></tr>
+        <tr><td>React DOM</td><td>19.2</td><td>DOM rendering</td></tr>
+        <tr><td>Vite</td><td>8.0</td><td>Build tool &amp; dev server with HMR</td></tr>
+        <tr><td>ESLint</td><td>9.39</td><td>Code linting (React hooks &amp; refresh plugins)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr>
+
+  <!-- Running the Frontend -->
+  <section id="fe-running">
+    <h2>Frontend — Running</h2>
+    <table>
+      <thead>
+        <tr><th>Command</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>npm run dev</code></td><td>Start Vite dev server with hot-module reload</td></tr>
+        <tr><td><code>npm run build</code></td><td>Create a production build in <code>dist/</code></td></tr>
+        <tr><td><code>npm run preview</code></td><td>Preview the production build locally</td></tr>
+        <tr><td><code>npm run lint</code></td><td>Run ESLint across the project</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <strong>Note:</strong> The frontend expects the backend at <code>http://localhost:3000</code>. This is hard-coded in <code>App.jsx</code>.
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- Frontend Components -->
+  <section id="fe-components">
+    <h2>Frontend — Components</h2>
+
+    <h3><code>App.jsx</code></h3>
+    <p>Root component that owns all application state and orchestrates navigation between three views.</p>
+    <table>
+      <thead><tr><th>State</th><th>Type</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>posts</code></td><td>Array</td><td>All fetched blog posts</td></tr>
+        <tr><td><code>selectedPost</code></td><td>Object | null</td><td>Currently viewed post</td></tr>
+        <tr><td><code>view</code></td><td>String</td><td><code>"list"</code> | <code>"view"</code> | <code>"create"</code></td></tr>
+        <tr><td><code>loading</code></td><td>Boolean</td><td>Fetch in progress</td></tr>
+        <tr><td><code>error</code></td><td>String | null</td><td>Error message for display</td></tr>
+      </tbody>
+    </table>
+
+    <h3><code>PostList.jsx</code></h3>
+    <p>Renders a clickable list of all posts. Shows a loading indicator while fetching and an empty-state message when there are no posts.</p>
+
+    <h3><code>PostView.jsx</code></h3>
+    <p>Displays the full title and content of a single post with a back button to return to the list.</p>
+
+    <h3><code>PostForm.jsx</code></h3>
+    <p>A controlled form with <strong>title</strong> and <strong>content</strong> fields. Validates that neither field is empty before submitting. Shows a submitting state and provides a cancel button.</p>
+  </section>
+
+  <hr>
+
+  <!-- Backend Tech Stack -->
+  <section id="be-tech-stack">
+    <h2>Backend — Tech Stack</h2>
+    <table>
+      <thead>
+        <tr><th>Technology</th><th>Version</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Express.js</td><td>4.21</td><td>HTTP server &amp; routing</td></tr>
+        <tr><td>cors</td><td>2.8</td><td>Cross-origin resource sharing</td></tr>
+        <tr><td>Node.js</td><td>18+</td><td>Runtime (uses <code>--watch</code> for dev reload)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Project Structure</h3>
+    <pre><code>src/
+├── index.js              # Server entry — mounts middleware &amp; routes
+├── routes/
+│   └── posts.js          # GET and POST handlers for /api/posts
+├── middleware/
+│   └── validate.js       # validatePost — checks title &amp; content
+└── data/
+    └── posts.js          # In-memory store with seed data</code></pre>
+  </section>
+
+  <hr>
+
+  <!-- Running the Backend -->
+  <section id="be-running">
+    <h2>Backend — Running</h2>
+    <table>
+      <thead>
+        <tr><th>Command</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>npm start</code></td><td>Start server on port 3000</td></tr>
+        <tr><td><code>npm run dev</code></td><td>Start with <code>node --watch</code> (auto-reload on save)</td></tr>
+      </tbody>
+    </table>
+    <p>On startup you will see:</p>
+    <pre><code>Blog API server running on http://localhost:3000</code></pre>
+
+    <div class="callout">
+      <strong>Storage:</strong> Data is held in memory. Restarting the server resets all posts to the three seed entries.
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- API Reference -->
+  <section id="be-api">
+    <h2>Backend — API Reference</h2>
+    <p>All endpoints are prefixed with <code>/api/posts</code>. Request and response bodies are JSON.</p>
+
+    <!-- GET /api/posts -->
+    <div class="endpoint">
+      <h3><span class="method get">GET</span> <code>/api/posts</code></h3>
+      <p>Retrieve all blog posts.</p>
+      <h4>Response <span class="status">200 OK</span></h4>
+      <pre><code>[
+  {
+    "id": 1,
+    "title": "Getting Started with Express.js",
+    "content": "Express.js is a minimal and flexible ...",
+    "createdAt": "2026-03-25T10:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "title": "Understanding RESTful APIs",
+    "content": "REST (Representational State Transfer) ...",
+    "createdAt": "2026-03-26T14:30:00.000Z"
+  }
+]</code></pre>
+    </div>
+
+    <!-- GET /api/posts/:id -->
+    <div class="endpoint">
+      <h3><span class="method get">GET</span> <code>/api/posts/:id</code></h3>
+      <p>Retrieve a single post by ID.</p>
+      <h4>Response <span class="status">200 OK</span></h4>
+      <pre><code>{
+  "id": 1,
+  "title": "Getting Started with Express.js",
+  "content": "Express.js is a minimal and flexible ...",
+  "createdAt": "2026-03-25T10:00:00.000Z"
+}</code></pre>
+      <h4>Response <span class="status error">404 Not Found</span></h4>
+      <pre><code>{
+  "error": "Post not found"
+}</code></pre>
+    </div>
+
+    <!-- POST /api/posts -->
+    <div class="endpoint">
+      <h3><span class="method post">POST</span> <code>/api/posts</code></h3>
+      <p>Create a new blog post. The request body must include <code>title</code> and <code>content</code>.</p>
+
+      <h4>Request Body</h4>
+      <pre><code>{
+  "title": "My New Post",
+  "content": "This is the body of my new blog post."
+}</code></pre>
+
+      <h4>Response <span class="status">201 Created</span></h4>
+      <pre><code>{
+  "id": 4,
+  "title": "My New Post",
+  "content": "This is the body of my new blog post.",
+  "createdAt": "2026-03-27T12:00:00.000Z"
+}</code></pre>
+
+      <h4>Response <span class="status error">400 Bad Request</span></h4>
+      <pre><code>{
+  "error": "Title is required"
+}</code></pre>
+
+      <h4>Validation Rules</h4>
+      <table>
+        <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Rules</th></tr></thead>
+        <tbody>
+          <tr><td><code>title</code></td><td>string</td><td>Yes</td><td>Must be a non-empty string (trimmed)</td></tr>
+          <tr><td><code>content</code></td><td>string</td><td>Yes</td><td>Must be a non-empty string (trimmed)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Testing with cURL</h3>
+    <pre><code><span class="comment"># List all posts</span>
+curl http://localhost:3000/api/posts
+
+<span class="comment"># Get a single post</span>
+curl http://localhost:3000/api/posts/1
+
+<span class="comment"># Create a post</span>
+curl -X POST http://localhost:3000/api/posts \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Hello World", "content": "My first post!"}'</code></pre>
+  </section>
+
+  <footer>
+    <p>TestLoom Blog Documentation</p>
+  </footer>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
